@@ -1,0 +1,33 @@
+img{
+    height: 250px;
+    width: 250px;
+    display: inline-block;
+    margin: 10px;
+    border: solid;
+}
+
+p{
+    padding:1%;
+    border: solid;
+ 
+ }
+#display{
+    display: inline-block;
+    width: 65%;
+    height: 100%;
+}
+ul{
+    height: 100%;
+    display: inline-block;
+    border: solid;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-right: 0%;
+    width: 23%;
+    margin: 10px;
+}
+
+#section1{
+    vertical-align: top;
+}
+
