@@ -14,10 +14,14 @@ let viewResultsBtn = document.getElementById('viewResultsBtn');
 let listOfResults = document.getElementById('listOfResults');
 let forVoteEvent = document.getElementById('forVoteEvent');
 let btn;
+let chartLables=[];
+let chartVotes=[];
+let chartTimesShown=[];
 //Constructor function of the products objects
 
 function Product (name,picturePath){
     this.name= name,
+    chartLables.push(this.name);
     this.picturePath = picturePath,
     this.timesShown = 0 ,
     this.votes = 0,
@@ -59,7 +63,8 @@ function generateRandomImages(){
     imageOne = arrayOfProducts[randomNumber()];
     imageTwo = arrayOfProducts[randomNumber()];
     imageThree = arrayOfProducts[randomNumber()];
-    while(imageOne === imageTwo || imageTwo ===imageThree || imageOne === imageThree){
+    // these conditions in the while loop are to make sure that no identical images appear on the same attempt, and no identical images appear two attempts in row.
+    while((imageOne === imageTwo || imageTwo ===imageThree || imageOne === imageThree) || (previousImages.includes(imageOne) || previousImages.includes(imageTwo) ||previousImages.includes(imageThree))){
         imageOne = arrayOfProducts[randomNumber()];
         imageTwo = arrayOfProducts[randomNumber()];
         imageThree = arrayOfProducts[randomNumber()];
@@ -102,13 +107,20 @@ function vote(event){
         generateRandomImages();
     }
    
-    if (counterOfAttempts ===5){
+    if (counterOfAttempts ===10){
         //Results
+        for(let i=0; i<arrayOfProducts.length; i++){
+            chartVotes.push(arrayOfProducts[i].votes)
+            chartTimesShown.push(arrayOfProducts[i].timesShown)
+            console.log(arrayOfProducts[i].votes)
+        }
+    
         btn = document.createElement('button');
         btn.textContent='View Results';
         viewResultsBtn.appendChild(btn);
         btn.addEventListener('click', displayResults);
         forVoteEvent.removeEventListener('click',vote);
+        
     }
     
     //console.log(arrayOfProducts[0].votes);
@@ -124,6 +136,34 @@ function displayResults(event){
         productList.textContent= `${arrayOfProducts[i].name} had ${arrayOfProducts[i].votes}, and was seen ${arrayOfProducts[i].timesShown}`;
        
     }
+    chart();
     btn.removeEventListener('click', displayResults)
 }
+
+
+
+function chart(){
+    let ctx = document.getElementById('canvasId')
+    let myChart = new Chart(ctx, { // its an instance 
+        type: 'bar',
+        data: {
+            labels: chartLables, // ['goat away' ,  ... 'sassy goat']
+            datasets: [{
+                label: 'Number Of votes',
+                data: chartVotes,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderWidth: 1
+            },{
+              label:'times timesShown',
+              data: chartTimesShown,
+              backgroundColor:[
+                "rgb(192,192,192)"
+              ],
+              borderWidth: 1
+            }]
+        }
+    })
+    }
 
