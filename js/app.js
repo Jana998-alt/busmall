@@ -5,13 +5,15 @@ let arrayOfProducts =[];
 let imageOne;
 let imageTwo;
 let imageThree;
+let previousImages = ['','',''];
 
 let firstImage =document.getElementById('firstImage');
 let middleImage =document.getElementById('middleImage');
 let lastImage = document.getElementById('lastImage');
 let viewResultsBtn = document.getElementById('viewResultsBtn');
 let listOfResults = document.getElementById('listOfResults');
-
+let forVoteEvent = document.getElementById('forVoteEvent');
+let btn;
 //Constructor function of the products objects
 
 function Product (name,picturePath){
@@ -67,6 +69,10 @@ function generateRandomImages(){
     middleImage.setAttribute('src', imageTwo.picturePath);
     lastImage.setAttribute('src', imageThree.picturePath);
     imageOne.timesShown++;
+    // the next few lines are to make sure than no image comes out two times in row
+    previousImages[0]=imageOne;
+    previousImages[1]=imageTwo;
+    previousImages[3]=imageThree;
     //console.log(imageOne.timesShown);
     imageTwo.timesShown++;
     imageThree.timesShown++;
@@ -75,36 +81,40 @@ function generateRandomImages(){
 randomNumber();
 generateRandomImages();
 
-firstImage.addEventListener('click', vote);
-middleImage.addEventListener('click', vote);
-lastImage.addEventListener('click', vote);
-
+forVoteEvent.addEventListener('click', vote);
 
 function vote(event){
-    counterOfAttempts++;
     //console.log(event.target.id);
     if (event.target.id === 'firstImage'){ 
         imageOne.votes++;
+        counterOfAttempts++;
+        generateRandomImages();
         //console.log(imageOne.votes)
     }
     else if (event.target.id === 'middleImage'){
         imageTwo.votes++;
+        counterOfAttempts++;
+        generateRandomImages();
     }
     else if (event.target.id === 'lastImage'){
-        imageThree.votes++
+        imageThree.votes++;
+        counterOfAttempts++;
+        generateRandomImages();
     }
-    generateRandomImages();
-
+   
     if (counterOfAttempts ===5){
         //Results
-        firstImage.removeEventListener('click', vote);
-        middleImage.removeEventListener('click', vote);
-        lastImage.removeEventListener('click', vote);
+        btn = document.createElement('button');
+        btn.textContent='View Results';
+        viewResultsBtn.appendChild(btn);
+        btn.addEventListener('click', displayResults);
+        forVoteEvent.removeEventListener('click',vote);
     }
+    
     //console.log(arrayOfProducts[0].votes);
 }
 
-viewResultsBtn.addEventListener('click', displayResults);
+
 
 function displayResults(event){
     let productList;
@@ -114,4 +124,6 @@ function displayResults(event){
         productList.textContent= `${arrayOfProducts[i].name} had ${arrayOfProducts[i].votes}, and was seen ${arrayOfProducts[i].timesShown}`;
        
     }
+    btn.removeEventListener('click', displayResults)
 }
+
