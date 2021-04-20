@@ -17,8 +17,13 @@ let btn;
 let chartLables=[];
 let chartVotes=[];
 let chartTimesShown=[];
-//Constructor function of the products objects
 
+let newVotes =0;
+let newTimes =0;
+let newVotesForDisplay =[];
+let newTimesForDisplay =[];
+
+//Constructor function of the products objects
 function Product (name,picturePath){
     this.name= name,
     chartLables.push(this.name);
@@ -107,12 +112,12 @@ function vote(event){
         generateRandomImages();
     }
    
-    if (counterOfAttempts ===10){
+    if (counterOfAttempts ===24){
         //Results
         for(let i=0; i<arrayOfProducts.length; i++){
             chartVotes.push(arrayOfProducts[i].votes)
             chartTimesShown.push(arrayOfProducts[i].timesShown)
-            console.log(arrayOfProducts[i].votes)
+        
         }
     
         btn = document.createElement('button');
@@ -129,11 +134,12 @@ function vote(event){
 
 
 function displayResults(event){
+    saveVotesToLS();
     let productList;
     for(let i=0; i<arrayOfProducts.length ;i++){
         productList=document.createElement('li');
         listOfResults.appendChild(productList);
-        productList.textContent= `${arrayOfProducts[i].name} had ${arrayOfProducts[i].votes}, and was seen ${arrayOfProducts[i].timesShown}`;
+        productList.textContent= `${arrayOfProducts[i].name} had ${newVotesForDisplay[i]}, and was seen ${newTimesForDisplay[i]} times`;
        
     }
     chart();
@@ -143,6 +149,7 @@ function displayResults(event){
 
 
 function chart(){
+
     let ctx = document.getElementById('canvasId')
     let myChart = new Chart(ctx, { // its an instance 
         type: 'bar',
@@ -150,14 +157,14 @@ function chart(){
             labels: chartLables, // ['goat away' ,  ... 'sassy goat']
             datasets: [{
                 label: 'Number Of votes',
-                data: chartVotes,
+                data: newVotesForDisplay,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                 ],
                 borderWidth: 1
             },{
               label:'times timesShown',
-              data: chartTimesShown,
+              data: newTimesForDisplay,
               backgroundColor:[
                 "rgb(192,192,192)"
               ],
@@ -165,5 +172,42 @@ function chart(){
             }]
         }
     })
+    
+}
+
+
+//localStorage.setItem('votesInLS',JSON.stringify([])); 
+//let timesShownInLS = [];
+
+
+function saveVotesToLS(){
+
+    if(!localStorage.getItem('bag votes')){
+        for(let i=0; i<chartVotes.length;i++){
+            localStorage.setItem(`${chartLables[i]} votes`,chartVotes[i]);
+            newVotesForDisplay.push(chartVotes[i]);
+        } 
+        //console.log('first time')
+        
+        for(let i=0; i<chartTimesShown.length;i++){
+            localStorage.setItem(`${chartLables[i]} times shown on the screen`,chartTimesShown[i]);
+            newTimesForDisplay.push(chartTimesShown[i]);
+            } 
+        
     }
 
+    else{
+       
+        for(let i=0; i<chartVotes.length;i++){
+            newVotes = parseInt(localStorage.getItem(`${chartLables[i]} votes`))+ chartVotes[i];
+            localStorage.setItem(`${chartLables[i]} votes`,JSON.stringify(newVotes));
+            newVotesForDisplay[i] = newVotes;
+            //console.log(newVotes);
+        }
+        for(let i=0; i<chartTimesShown.length;i++){
+            newTimes = parseInt(localStorage.getItem(`${chartLables[i]} times shown on the screen`))+ chartTimesShown[i];
+            localStorage.setItem(`${chartLables[i]} times shown on the screen`,JSON.stringify(newTimes));
+            newTimesForDisplay[i] = newTimes;
+        }
+    }
+}

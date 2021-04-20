@@ -29,5 +29,13 @@ ul{
 
 #section1{
     vertical-align: top;
+    background-image: url("../img/background pictures.png");
+    background-size: 150%;
+    background-position: 40% 20% ;
 }
 
+#forVoteEvent{
+    
+    
+    
+}
