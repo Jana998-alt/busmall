@@ -159,14 +159,14 @@ function chart(){
                 label: 'Number Of votes',
                 data: newVotesForDisplay,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(202, 82, 82, 0.5)',
                 ],
                 borderWidth: 1
             },{
               label:'times timesShown',
               data: newTimesForDisplay,
               backgroundColor:[
-                "rgb(192,192,192)"
+                "rgb(192,192,192,0.7)"
               ],
               borderWidth: 1
             }]
@@ -211,3 +211,4 @@ function saveVotesToLS(){
         }
     }
 }
+

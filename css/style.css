@@ -1,15 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+html{
+    border: 10px rgb(197, 71, 71) solid;
+}
+
+h1{
+    font-family:'Press Start 2P', cursive;
+    padding: 50px;
+    border: 5px lightcoral dashed;
+    text-align: center;
+}
+
 img{
-    height: 250px;
-    width: 250px;
+    
+    height: 200px;
+    width: 200px;
     display: inline-block;
-    margin: 10px;
+    margin: 13px;
     border: solid;
 }
+
 
 p{
     padding:1%;
     border: solid;
- 
+    background-color:rgb(255, 255, 240,80%);
+    width: 80%;
+    position: relative;
+    left: 45px;
+    top: 50px;
  }
 #display{
     display: inline-block;
@@ -17,25 +35,37 @@ p{
     height: 100%;
 }
 ul{
-    height: 100%;
+    background-color:rgb(255, 255, 240,80%);
     display: inline-block;
+    height: 60%;
     border: solid;
     padding-top: 2%;
     padding-bottom: 2%;
     padding-right: 0%;
     width: 23%;
     margin: 10px;
+    position: relative;
+    top: 100px;
+    left: 45px;
 }
 
 #section1{
     vertical-align: top;
     background-image: url("../img/background pictures.png");
+    height: 650px;
     background-size: 150%;
-    background-position: 40% 20% ;
+    background-position: 55% 50%;
 }
-
 #forVoteEvent{
-    
-    
-    
+position: relative;
+    top: 65px;
+    left: 50px;
+}
+button {
+    width: 120px;
+    height:120px ;
+    position: relative;
+    left: 32%;
+    bottom: 100px;
+    background-color: rgb(202, 82, 82,80%);
 }
